@@ -133,7 +133,12 @@ impl Value {
 
     fn parse_data(buf: &[u8]) -> io::Result<Option<(Value, usize)>> {
         let (len, start) = match Value::parse_int(buf) {
-            Ok(Some((Value::Int(len), start))) => (len as usize, start),
+            Ok(Some((Value::Int(len), start))) => {
+                if len < 0 {
+                    return Ok(Some((Value::Nil, start)));
+                }
+                (len as usize, start)
+            }
             Ok(_) => return Ok(None),
             Err(err) => return Err(err),
         };
