@@ -9,6 +9,7 @@ extern crate tokio_core;
 extern crate either;
 extern crate spin;
 extern crate nodrop;
+extern crate url;
 
 #[doc(inline)]
 pub use cmd::{Arg, Arguments, Cmd, IntoArg, IntoArgs};

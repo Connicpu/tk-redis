@@ -1,0 +1,10 @@
+use_try_shorthand = true
+reorder_imports = true
+reorder_imported_names = true
+fn_args_density = "compressed"
+condense_wildcard_suffices = true
+ideal_width = 95
+max_width = 100
+fn_call_width = 80
+skip_children = true
+format_strings = false

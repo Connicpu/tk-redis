@@ -10,6 +10,7 @@ use spin::Mutex;
 use std::cell::RefCell;
 use std::io;
 use std::net::SocketAddr;
+use std::net::ToSocketAddrs;
 use std::rc::Rc;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -17,6 +18,7 @@ use tokio_core::io::Framed;
 use tokio_core::io::Io;
 use tokio_core::net::TcpStream;
 use tokio_core::reactor::Remote;
+use url::Url;
 use value::Value;
 
 pub struct ConnectionInfo {
@@ -24,6 +26,35 @@ pub struct ConnectionInfo {
     pub password: Option<String>,
     pub db: u64,
     pub max_connections: usize,
+}
+
+impl ConnectionInfo {
+    pub fn from_url(url: &Url) -> Option<ConnectionInfo> {
+        let addr = match url.to_socket_addrs().ok().and_then(|mut addrs| addrs.next()) {
+            Some(addr) => addr,
+            None => return None,
+        };
+
+        let password = url.password().map(|s| s.to_string());
+        let db = url.path().parse().unwrap_or(0);
+
+        let mut max = 16;
+        for (k, v) in url.query_pairs() {
+            if k == "max_connections" {
+                if let Ok(maxc) = v.parse() {
+                    max = maxc;
+                    break;
+                }
+            }
+        }
+
+        Some(ConnectionInfo {
+            addr: addr,
+            password: password,
+            db: db,
+            max_connections: max,
+        })
+    }
 }
 
 #[derive(Clone)]
