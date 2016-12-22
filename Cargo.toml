@@ -1,0 +1,16 @@
+[package]
+name = "tk-redis"
+version = "0.1.0"
+authors = ["Connor Hilarides <connorcpu@live.com>"]
+description = "A minimal redis client library based on futures+tokio-core"
+documentation = "https://docs.rs/tk-redis"
+repository = "https://github.com/connorcpu/tk-redis"
+license = "MIT"
+
+[dependencies]
+tokio-core = "^0.1.1"
+futures = "^0.1.7"
+either = "^1.0"
+spin = "^0.4.5"
+log = "^0.3"
+nodrop = { version = "^0.1.8", features = ["use_needs_drop", "use_union"] }
