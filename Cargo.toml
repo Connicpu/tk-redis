@@ -1,6 +1,6 @@
 [package]
 name = "tk-redis"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Connor Hilarides <connorcpu@live.com>"]
 description = "A minimal redis client library based on futures+tokio-core"
 documentation = "https://docs.rs/tk-redis"

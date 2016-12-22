@@ -36,7 +36,7 @@ impl ConnectionInfo {
         };
 
         let password = url.password().map(|s| s.to_string());
-        let db = url.path().parse().unwrap_or(0);
+        let db = url.path()[1..].parse().unwrap_or(0);
 
         let mut max = 16;
         for (k, v) in url.query_pairs() {
